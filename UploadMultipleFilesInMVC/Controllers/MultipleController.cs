@@ -18,15 +18,20 @@ namespace UploadMultipleFilesInMVC.Controllers
         [HttpPost]
         public ActionResult Index(IEnumerable<HttpPostedFileBase> files)
         {
-            foreach (var file in files)
+            if (files != null)
             {
-                if (file.ContentLength > 0)
+                foreach (var file in files)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/UploadedFiles/"), fileName);
-                    file.SaveAs(path);
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var path = Path.Combine(Server.MapPath("~/UploadedFiles/"), fileName);
+                        file.SaveAs(path);
+                    }
                 }
             }
+
+
             return RedirectToAction("Index");
         }
 
